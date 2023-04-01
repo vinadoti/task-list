@@ -1,16 +1,33 @@
-# task_list
+# Projeto Task-List
 
-A new Flutter project.
+Projeto realizado durante a disciplina de *Programação para dispositivos móveis* do curso de Análise e desenvolvimento de sistemas pela Fatec Rio Preto
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Tecnologias
 
-A few resources to get you started if this is your first Flutter project:
+Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<div style="display: inline_block">
+	<img align="center" alt="Flutter" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg"">
+	<img align="center" alt="Dart" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-plain-wordmark.svg">
+  	<img align="center" alt="VsCode" height="40" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original-wordmark.svg">
+</div>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## ✔ Utilitários
+
+- [Flutter](https://docs.flutter.dev/development/ui/widgets/material)
+
+---
+
+## 💻 Projeto
+
+O projeto consiste em realizar uma lista de tarefas durante as aulas, utilizando Flutter. </br>
+A aplicação também irá permitir ao usuário realizar login, cadastro, edição, remoção das tarefas. </br>
+Conforme ministrada as aulas o repositório será atualizado para acompanhamento do progresso do projeto. 
+
+---
+
+Feito com ♥ by [VivianNadoti](https://github.com/vinadoti)
