@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-class UserLoginPage extends StatelessWidget {
+class UserRegisterPage extends StatelessWidget {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   var formKey = GlobalKey<FormState>();
@@ -9,19 +9,20 @@ class UserLoginPage extends StatelessWidget {
   String email = '';
   String password = '';
 
-  void login(BuildContext context) async {
+  void register(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      
-      try{
-        await auth.signInWithEmailAndPassword(email: email, password: password);
-        
+
+      try {
+        await auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
         Navigator.of(context).pushNamed('/task-list');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('A senha é muito fraca');
         } else if (e.code == 'email-already-in-use') {
-          print('O email já está em uso');
+          print('O e-mail já está em uso');
         }
       } catch (e) {
         print(e);
@@ -32,16 +33,14 @@ class UserLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Criar conta')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Acessar conta',
+              'Criar conta',
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
@@ -90,13 +89,13 @@ class UserLoginPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
               ),
-              onPressed: () => login(context),
-              child: const Text('Entrar'),
+              onPressed: () => register(context),
+              child: const Text('Criar conta'),
             ),
             const SizedBox(height: 16),
             TextButton(
-              onPressed: () => Navigator.of(context).pushNamed('/register'),
-              child: const Text('Criar conta'),
+              onPressed: () => Navigator.of(context).pushNamed('/login'),
+              child: const Text('Já tenho uma conta'),
             ),
           ]
         )

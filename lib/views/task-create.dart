@@ -1,21 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TaskCreatePage extends StatelessWidget {
-
   var formKey = GlobalKey<FormState>();
 
-  void saveTask(BuildContext context) {
+  String name = '';
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
+  // Salvar a tarefa
+  void SaveTask(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      
       formKey.currentState!.save();
 
-      // TODO: Salvar tarefa no banco de dados
-      // firestore.add({'name': 'tarefa'});
-
+      firestore.collection('tasks').add({
+        'name': name,
+        'finished': false,
+        'uid': auth.currentUser!.uid,
+      });
       Navigator.of(context).pop();
-      print('Salvando tarefa');
-      
     }
   }
 
@@ -23,59 +28,50 @@ class TaskCreatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Criar Tarefa'),
+        title: const Text('Nova Tarefa'),
       ),
       body: Form(
         key: formKey,
         child: Column(
           children: [
-            // campo para selecionar data com o datepicker
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  labelText: 'Data',
+                maxLength: 250,
+                maxLines: 3,
+                minLines: 1,
+                decoration: const InputDecoration(
+                  hintText: 'O que você precisa fazer?',
                 ),
-                onTap: () async {
-                  var date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2021),
-                    lastDate: DateTime(2022),
-                  );
-                  print(date);
-                },
-                onSaved: (newValue) {},
+                onSaved: (value) => name = value!,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Por favor, insira uma data';
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, informe a tarefa';
                   }
                   return null;
                 },
               ),
             ),
-            
-            //campo select para escolher a categoria
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: DropdownButtonFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  labelText: 'Prioridade',
+                decoration: const InputDecoration(
+                  hintText: "Selecione a prioridade",
                 ),
+                // ignore: prefer_const_literals_to_create_immutables
                 items: [
-                  DropdownMenuItem(
-                    child: Text('Alta'),
-                    value: 'alta',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Média'),
-                    value: 'media',
-                  ),
-                  DropdownMenuItem(
+                  const DropdownMenuItem(
+                    value: 1,
                     child: Text('Baixa'),
-                    value: 'baixa',
+                  ),
+                  const DropdownMenuItem(
+                    child: Text('Média'),
+                    value: 2,
+                  ),
+                  const DropdownMenuItem(
+                    value: 3,
+                    child: Text('Alta'),
                   ),
                 ],
                 onChanged: (value) {},
@@ -89,31 +85,14 @@ class TaskCreatePage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(20),
-              child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                minLines: 1,
-                maxLines: 5,
-                maxLength: 200,
-                decoration: InputDecoration(
-                  labelText: 'Nova tarefa',
-                ),
-                onSaved: (newValue) {},
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Por favor, insira uma tarefa';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width - 200,
+              width: MediaQuery.of(context).size.width - 20,
+              height: 60,
+              padding: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: () => saveTask(context),
+                onPressed: () => SaveTask(context),
                 child: const Text('Salvar'),
               ),
-            )
+            ),
           ],
         ),
       ),
